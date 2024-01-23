@@ -87,26 +87,4 @@ public:
 
 	}
 
-	void renderSamples2(int beginningIndex, int nbSamplesToDraw = 11025) {
-		verticesChannel1 = sf::VertexArray(sf::Points, nbSamplesToDraw);
-		verticesChannel2 = sf::VertexArray(sf::Points, nbSamplesToDraw);
-
-		int end;
-
-		if (beginningIndex + nbSamplesToDraw > samplesChannel1.size()) {
-			end = samplesChannel1.size();
-		}
-		else {
-			end = (beginningIndex + nbSamplesToDraw);
-		}
-
-		for (int i = beginningIndex; i < end; i++) {
-			//std::cout << i << std::endl;
-			verticesChannel1[i - beginningIndex].position = sf::Vector2f{ (i - beginningIndex) * grid.width / static_cast<float>(nbSamplesToDraw), -samplesChannel1[i] * grid.height / 2.0f + grid.height / 2.0f };
-			verticesChannel1[i - beginningIndex].color = sf::Color::Blue;
-			verticesChannel2[i - beginningIndex].position = sf::Vector2f{ (i - beginningIndex) * grid.width / static_cast<float>(nbSamplesToDraw), -samplesChannel2[i] * grid.height / 2.0f + grid.height / 2.0f };
-			verticesChannel2[i - beginningIndex].color = sf::Color::Green;
-		}
-
-	}
 };

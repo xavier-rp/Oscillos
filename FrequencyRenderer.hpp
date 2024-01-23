@@ -26,7 +26,7 @@ public:
 
 	}
 
-	void renderFrequencies(std::vector<float>& amplitudes) {
+	void renderFrequencies(std::vector<float>& amplitudes, bool logScale=true) {
 
 		verticesToDraw = sf::VertexArray(sf::LinesStrip, amplitudes.size());
 
@@ -41,12 +41,17 @@ public:
 				if (i >= binsToCut) {
 					//verticesToDraw[i].position = sf::Vector2f(std::log10(static_cast<float>(i) / static_cast<float>(sampleRate / 2) * grid.width) / std::log10(grid.width) * grid.width, -amplitudes[i] + grid.height);// (1.0 - amplitudes[i] / maximumAmplitude)* grid.height);
 
-					// Logscale frequencies
-					//verticesToDraw[i].position = sf::Vector2f(std::log10(static_cast<float>(i) / static_cast<float>(amplitudes.size()) * grid.width) / std::log10(grid.width) * grid.width, -std::log10(amplitudes[i] + 1.0f) / std::log10(maximumAmplitude + 1.0f) * grid.height + 2*grid.height);
-					verticesToDraw[i].position = sf::Vector2f(std::log10(static_cast<float>(i) / static_cast<float>(amplitudes.size()) * grid.width) / std::log10(grid.width) * grid.width, -std::log10(amplitudes[i] + 1.0f) / std::log10(allTimeMax + 1.0f) * grid.height + 2 * grid.height);
+					if (logScale) {
+						// Logscale frequencies
+						verticesToDraw[i].position = sf::Vector2f(std::log10(static_cast<float>(i) / static_cast<float>(amplitudes.size()) * grid.width) / std::log10(grid.width) * grid.width, -std::log10(amplitudes[i] + 1.0f) / std::log10(allTimeMax + 1.0f) * grid.height + 2 * grid.height);
 
-					// Linear frequencies
-					//verticesToDraw[i].position = sf::Vector2f(static_cast<float>(i) / static_cast<float>(amplitudes.size()) * grid.width, -std::log10(amplitudes[i] + 1.0f) / std::log10(maximumAmplitude + 1.0f) * grid.height + 2*grid.height);
+					}
+					else {
+
+						// Linear frequencies
+						verticesToDraw[i].position = sf::Vector2f(static_cast<float>(i) / static_cast<float>(amplitudes.size()) * grid.width, -std::log10(amplitudes[i] + 1.0f) / std::log10(maximumAmplitude + 1.0f) * grid.height + 2*grid.height);
+					}
+
 					verticesToDraw[i].color = sf::Color::Green;
 				}
 				else {
